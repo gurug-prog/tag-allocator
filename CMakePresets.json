@@ -1,0 +1,33 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name":"dev",
+      "cacheVariables":{
+        "CMAKE_C_COMPILER":"gcc",
+        "CMAKE_C_FLAGS":"-fsanitize=address -Wall -Werror -O0 -O2"
+      }
+    },
+    {
+      "name":"debug",
+      "cacheVariables":{
+        "CMAKE_C_COMPILER":"gcc",
+        "CMAKE_C_FLAGS":"-g -fsanitize=address -Wall -Wpedantic -Werror"
+      }
+    },
+    {
+      "name":"base2",
+      "cacheVariables":{
+        "CMAKE_C_COMPILER":"gcc",
+        "CMAKE_C_FLAGS":"-c -Wall -Werror"
+      }
+    },
+    {
+      "name":"no-flags",
+      "cacheVariables":{
+        "CMAKE_C_COMPILER":"gcc",
+        "CMAKE_C_FLAGS":""
+      }
+    }
+  ]
+}
