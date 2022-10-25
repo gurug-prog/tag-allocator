@@ -18,7 +18,7 @@ struct Block
 void    Block_init              (Block* self, size_t size);
 
 void*   Block_toPayload         (const Block* self);
-void*   Block_next              (const Block* self);
+Block*  Block_next              (const Block* self);
 size_t  Block_getCurrBlockSize  (const Block* self);
 size_t  Block_getPrevBlockSize  (const Block* self);
 bool    Block_isBusy            (const Block* self);

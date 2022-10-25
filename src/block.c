@@ -6,7 +6,7 @@ void* Block_toPayload(const Block* self)
     return (char*)self + BLOCK_STRUCT_SIZE;
 }
 
-void* Block_next(const Block* self)
+Block* Block_next(const Block* self)
 {
     return (Block*)
         ((char*)self + BLOCK_STRUCT_SIZE + self->currBlockSize);
