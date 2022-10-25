@@ -5,21 +5,21 @@
       "name":"dev",
       "cacheVariables":{
         "CMAKE_C_COMPILER":"gcc",
-        "CMAKE_C_FLAGS":"-fsanitize=address -Wall -Werror -O0 -O2"
+        "CMAKE_C_FLAGS":"-fsanitize=address -Wall -Wextra -Werror"
       }
     },
     {
       "name":"debug",
       "cacheVariables":{
         "CMAKE_C_COMPILER":"gcc",
-        "CMAKE_C_FLAGS":"-g -fsanitize=address -Wall -Wpedantic -Werror"
+        "CMAKE_C_FLAGS":"-g -fsanitize=address -Wall -Wextra"
       }
     },
     {
-      "name":"base2",
+      "name":"release",
       "cacheVariables":{
         "CMAKE_C_COMPILER":"gcc",
-        "CMAKE_C_FLAGS":"-c -Wall -Werror"
+        "CMAKE_C_FLAGS":"-Wall -Wextra -Werror -Wpedantic -O0 -O2"
       }
     },
     {
