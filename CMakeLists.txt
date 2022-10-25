@@ -4,6 +4,6 @@ project(tag-allocator)
 
 include_directories(include src)
 
-file(GLOB SOURCES "src/*.c")
+file(GLOB SOURCES "src/*")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
