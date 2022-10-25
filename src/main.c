@@ -1,14 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
+// #include <stdlib.h>
+
+#include "allocator_impl.h"
 
 int main()
 {
-    char* message = "Hello allocator!";
-
-    int* iptr = malloc(sizeof(int));
-
-    printf("%s\n", message);
-    printf("%p\n", (void*)iptr);
-
-    return 0;
+    for (size_t i = 1; i < 50; ++i)
+    {
+        printf("%zu -> %zu\n", i, ROUND_BYTES(i));
+    }
 }
