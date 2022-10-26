@@ -29,8 +29,20 @@ void* mem_alloc(size_t size)
         if (arenaAlloc() < 0) return NULL;
         arenaInit();
     }
+    size = ROUND_BYTES(size);
+    
+    Block* block = NULL;
+    for (block = arena;; block = Block_next(block))
+    {
+        if (!Block_isBusy(block) && Block_getCurrBlockSize(block) >= size)
+        {
+            Block_split(block, size);
+            return Block_toPayload(block);
+        }
 
-    (void)size;
+        if (Block_isLast(block)) break;
+    }
+
 
     return NULL;
 }
