@@ -6,6 +6,11 @@ void* Block_toPayload(const Block* self)
     return (char*)self + BLOCK_STRUCT_SIZE;
 }
 
+Block* Block_toHeader(const void* ptr)
+{
+    return (Block*)(char*)ptr - BLOCK_STRUCT_SIZE;
+}
+
 Block* Block_next(const Block* self)
 {
     return (Block*)

@@ -19,6 +19,7 @@ void    Block_init              (Block* self, size_t size);
 void    Block_initDefault       (Block* self);
 
 void*   Block_toPayload         (const Block* self);
+Block*  Block_toHeader          (const void* ptr);
 Block*  Block_next              (const Block* self);
 void    Block_split             (Block* self, size_t size);
 size_t  Block_getCurrBlockSize  (const Block* self);
