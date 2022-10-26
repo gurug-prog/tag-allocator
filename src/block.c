@@ -17,6 +17,12 @@ Block* Block_next(const Block* self)
         ((char*)self + BLOCK_STRUCT_SIZE + self->currBlockSize);
 }
 
+Block* Block_prev(const Block* self)
+{
+    return (Block*)
+        ((char*)self - BLOCK_STRUCT_SIZE - Block_getPrevBlockSize(self));
+}
+
 size_t Block_getCurrBlockSize(const Block* self)
 {
     return self->currBlockSize;
