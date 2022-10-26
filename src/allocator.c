@@ -83,7 +83,7 @@ void mem_free(void* ptr)
     }
     if (!Block_isFirst(currBlock))
     {
-        neighbour = Block_previous(currBlock);
+        neighbour = Block_prev(currBlock);
         if (!Block_isBusy(neighbour))
         {
             Block_merge(neighbour, currBlock);
