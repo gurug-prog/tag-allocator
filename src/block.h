@@ -23,6 +23,7 @@ Block*  Block_toHeader          (const void* ptr);
 Block*  Block_prev              (const Block* self);
 Block*  Block_next              (const Block* self);
 void    Block_split             (Block* self, size_t size);
+void    Block_merge             (Block* destination, Block* mergeable);
 size_t  Block_getCurrBlockSize  (const Block* self);
 void    Block_setCurrBlockSize  (Block* self, size_t size);
 size_t  Block_getPrevBlockSize  (const Block* self);

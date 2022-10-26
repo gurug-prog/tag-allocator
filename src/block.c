@@ -119,3 +119,21 @@ void Block_split(Block* self, size_t size)
         
     }
 }
+
+void Block_merge(Block* destination, Block* mergeable)
+{
+    size_t destSize =
+        Block_getCurrBlockSize(destination) +
+        BLOCK_STRUCT_SIZE +
+        Block_getCurrBlockSize(mergeable);
+
+    Block_setCurrBlockSize(destination, destSize);
+    if (Block_isLast(mergeable))
+    {
+        Block_setIsLast(destination, true);
+    }
+    else
+    {
+        Block_setPrevBlockSize(Block_next(destination), destSize);
+    }
+}
