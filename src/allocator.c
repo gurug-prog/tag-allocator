@@ -66,7 +66,29 @@ void* mem_realloc(void* ptr, size_t size)
 
 void mem_free(void* ptr)
 {
-    return free(ptr);
+    if (ptr == NULL) return;
+
+    Block* currBlock = NULL;
+    Block* neighbour = NULL;
+    currBlock = Block_toHeader(ptr);
+    Block_setIsBusy(currBlock, false);
+
+    if (!Block_isLast(currBlock))
+    {
+        neighbour = Block_next(currBlock);
+        if (!Block_isBusy(neighbour))
+        {
+            Block_merge(currBlock, neighbour);
+        }
+    }
+    if (!Block_isFirst(currBlock))
+    {
+        neighbour = Block_previous(currBlock);
+        if (!Block_isBusy(neighbour))
+        {
+            Block_merge(neighbour, currBlock);
+        }
+    }
 }
 
 void mem_show(char* message)
