@@ -70,3 +70,41 @@ void Block_init(Block* self, size_t size)
     self->isFirst = true;
     self->isLast = true;
 }
+
+void Block_initDefault(Block* self)
+{
+    self->isBusy = false;
+    self->isFirst = false;
+    self->isLast = false;
+}
+
+void Block_split(Block* self, size_t size)
+{
+    Block* cuttedBlock = NULL;
+    size_t oldSizeCurrBlock = Block_getCurrBlockSize(self);
+
+    Block_setIsBusy(self, true);
+    if (Block_getCurrBlockSize(self) >= size + BLOCK_STRUCT_SIZE)
+    {
+        Block_setCurrBlockSize(self, size);
+
+        cuttedBlock = Block_next(self);
+        Block_initDefault(cuttedBlock);
+        Block_setCurrBlockSize(cuttedBlock,
+            oldSizeCurrBlock - size - BLOCK_STRUCT_SIZE);
+        Block_setPrevBlockSize(cuttedBlock, size);
+
+        if (Block_isLast(self))
+        {
+            Block_setIsLast(self, false);
+            Block_setIsLast(cuttedBlock, true);
+        }
+        else
+        {
+            Block_setPrevBlockSize(
+                Block_next(cuttedBlock),
+                Block_getCurrBlockSize(cuttedBlock));
+        }
+        
+    }
+}
