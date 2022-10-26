@@ -57,9 +57,17 @@ void mem_free(void* ptr)
     return free(ptr);
 }
 
-void mem_show()
+void mem_show(char* message)
 {
     const Block* block;
+
+    printf("%s\n", message);
+    if (arena == NULL)
+    {
+        printf("No memory allocated for arena.");
+        return;
+    }
+
     for (block = arena;; block = Block_next(block))
     {
         printf("%s %10zu %10zu%s%s\n",
@@ -72,4 +80,5 @@ void mem_show()
 
         if (Block_isLast(block)) break;
     }
+    printf("\n");
 }
