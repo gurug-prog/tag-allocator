@@ -1,11 +1,16 @@
 #include <stdio.h>
+#include <stdint.h>
 
 #include "allocator.h"
 #include "block.h"
 #include "config.h"
 #include "kernel.h"
 
-#define ARENA_SIZE (ALLOCATOR_PAGE_SIZE * ALLOCATOR_ARENA_PAGES)
+#if ALLOCATOR_PAGE_SIZE > SIZE_MAX / ALLOCATOR_PAGE_SIZE
+#undef ALLOCATOR_PAGE_SIZE
+#define ALLOCATOR_PAGE_SIZE (SIZE_MAX / ALLOCATOR_PAGE_SIZE)
+#endif
+#define ARENA_SIZE ((size_t)ALLOCATOR_PAGE_SIZE * ALLOCATOR_ARENA_PAGES)
 
 static Block* arena = NULL;
 
