@@ -8,7 +8,7 @@ void* Block_toPayload(const Block* self)
 
 Block* Block_toHeader(const void* ptr)
 {
-    return (Block*)(char*)ptr - BLOCK_STRUCT_SIZE;
+    return (Block*)((char*)ptr - BLOCK_STRUCT_SIZE);
 }
 
 Block* Block_next(const Block* self)
