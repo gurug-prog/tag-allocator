@@ -12,6 +12,8 @@
 #endif
 #define ARENA_SIZE ((size_t)ALLOCATOR_PAGE_SIZE * ALLOCATOR_ARENA_PAGES)
 
+#define ARENA_BLOCK_SIZE_MAX (ARENA_SIZE - 2 * BLOCK_STRUCT_SIZE)
+
 static Block* arena = NULL;
 
 static int arenaAlloc()
@@ -29,6 +31,11 @@ static void arenaInit()
 
 void* mem_alloc(size_t size)
 {
+    if (size > ARENA_BLOCK_SIZE_MAX)
+    {
+        return NULL;
+    }
+
     if (arena == NULL)
     {
         if (arenaAlloc() < 0) return NULL;
