@@ -1,8 +1,31 @@
 #include <stdlib.h>
+#include <stdio.h>
+
+#include "kernel.h"
+
+static void failMemFreeSyscall()
+{
+    fprintf(stderr, "Error during system call memory free.\n");
+    exit(EXIT_FAILURE);
+}
+
+#include <sys/mman.h>
+
+#if defined(MAP_ANONYMOUS)
+# define FLAG_ANON MAP_ANONYMOUS
+#elif defined(MAP_ANON)
+# define FLAG_ANON MAP_ANON
+#else
+# error "Cannot specify anonymous memory with mmap()"
+#endif
 
 void* kernel_mem_alloc(size_t size)
 {
-    return malloc(size);
+    void* ptr = mmap(NULL, size,
+        PROT_READ | PROT_WRITE,
+        MAP_PRIVATE | FLAG_ANON,
+        -1, 0);
+    return ptr != MAP_FAILED ? ptr : NULL;
 }
 
 void* kernel_mem_realloc(void* ptr, size_t size)
@@ -10,7 +33,10 @@ void* kernel_mem_realloc(void* ptr, size_t size)
     return realloc(ptr, size);
 }
 
-void kernel_mem_free(void* ptr)
+void kernel_mem_free(void* ptr, size_t size)
 {
-    return free(ptr);
+    if (munmap(ptr, size) < 0)
+    {
+        failMemFreeSyscall();
+    }
 }
