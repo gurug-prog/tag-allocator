@@ -15,7 +15,9 @@ static _Noreturn void failMemFreeSyscall()
 
 void* kernel_mem_alloc(size_t size)
 {
-    return VirtualAlloc(NULL, size, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+    return VirtualAlloc(NULL, size,
+        MEM_RESERVE | MEM_COMMIT,
+        PAGE_READWRITE);
 }
 
 void
