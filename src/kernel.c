@@ -47,11 +47,6 @@ void* kernel_mem_alloc(size_t size)
     return ptr != MAP_FAILED ? ptr : NULL;
 }
 
-void* kernel_mem_realloc(void* ptr, size_t size)
-{
-    return realloc(ptr, size);
-}
-
 void kernel_mem_free(void* ptr, size_t size)
 {
     if (munmap(ptr, size) < 0)
