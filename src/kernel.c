@@ -21,7 +21,7 @@ void* kernel_mem_alloc(size_t size)
 void
 kernel_mem_free(void *ptr, size_t size)
 {
-    (void)size;
+    (void)size; // ignore size argument
     if (VirtualFree(ptr, 0, MEM_RELEASE) == 0)
         failed();
 }
