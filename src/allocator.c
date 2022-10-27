@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "allocator.h"
 #include "block.h"
@@ -106,7 +107,15 @@ void* mem_realloc(void* ptr, size_t size)
         return ptr;
     }
 
-    // mem_alloc() -> memcpy() -> mem_free()
+    // ensure capacity
+    void* newPtr = mem_alloc(size);
+    if (newPtr != NULL)
+    {
+        memcpy(newPtr, ptr, currSize);
+        mem_free(ptr);
+        return newPtr;
+    }
+    
     return NULL;
 }
 
