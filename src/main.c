@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+// #include "block.h"
 #include "allocator.h"
 
 static void bufFill(char* bytes, size_t size)
@@ -19,17 +19,23 @@ static void* bufAlloc(size_t size)
     return ptr;
 }
 
+static void* bufRealloc(void* ptr, size_t size)
+{
+    ptr = mem_realloc(ptr, size);
+    if (ptr != NULL) bufFill(ptr, size);
+
+    return ptr;
+}
+
 int main()
 {
+    void* p1 = bufAlloc(100);
+    mem_show("memAlloc(p1):");
+
     bufAlloc(10);
-    mem_show("mem_alloc(10):");
+    p1 = bufRealloc(p1, 100);
+    mem_show("memRealloc(p1)");
 
-    bufAlloc(16);
-    mem_show("mem_alloc(16):");
-
-    bufAlloc(100);
-    mem_show("mem_alloc(100):");
-
-    bufAlloc(225);
-    mem_show("mem_alloc(225):");
+    p1 = bufRealloc(p1, 1000);
+    mem_show("memRealloc(p1)");
 }
