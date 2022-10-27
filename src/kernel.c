@@ -3,7 +3,7 @@
 
 #include "kernel.h"
 
-static void failMemFreeSyscall()
+static _Noreturn void failMemFreeSyscall()
 {
     fprintf(stderr, "Error during system call memory free.\n");
     exit(EXIT_FAILURE);
