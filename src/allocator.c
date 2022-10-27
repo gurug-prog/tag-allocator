@@ -61,7 +61,53 @@ void* mem_alloc(size_t size)
 
 void* mem_realloc(void* ptr, size_t size)
 {
-    return realloc(ptr, size);
+    if (ptr == NULL)
+    {
+        return mem_alloc(size);
+    }
+    if (size > ARENA_BLOCK_SIZE_MAX)
+    {
+        return NULL;
+    }
+
+    Block* currBlock = NULL;
+    Block* neighbour = NULL;
+    size = ROUND_BYTES(size);
+
+    currBlock = Block_toHeader(ptr);
+    size_t currSize = Block_getCurrBlockSize(currBlock);
+    if (size == currSize)
+    {
+        return ptr;
+    }
+    if (!Block_isLast(currBlock))
+    {
+        neighbour = Block_next(currBlock);
+        if (Block_isBusy(neighbour))
+        {
+            neighbour = NULL;
+        }
+    }
+    else
+    {
+        neighbour = NULL;
+    }
+
+    if (size < currSize || (neighbour != NULL &&
+        size <= currSize + Block_getCurrBlockSize(neighbour)
+        + BLOCK_STRUCT_SIZE))
+    {
+        // in-place realloc
+        if (neighbour != NULL)
+        {
+            Block_merge(currBlock, neighbour);
+        }
+        Block_split(currBlock, size);
+        return ptr;
+    }
+
+    // mem_alloc() -> memcpy() -> mem_free()
+    return NULL;
 }
 
 void mem_free(void* ptr)
