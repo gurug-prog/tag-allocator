@@ -18,6 +18,11 @@ void* bufAlloc(size_t size)
     return ptr;
 }
 
+void bufFree(void* ptr)
+{
+    mem_free(ptr);
+}
+
 void* bufRealloc(void* ptr, size_t size)
 {
     ptr = mem_realloc(ptr, size);
